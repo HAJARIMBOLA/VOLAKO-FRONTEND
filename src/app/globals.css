@@ -1,0 +1,115 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+:root {
+  --bg: #0b1220;
+  --surface: #101a34;
+  --card: #192134;
+  --card-hover: #1e2740;
+  --fg: #f8fafc;
+  --muted: #1c2740;
+  --muted-fg: #94a3b8;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --primary-fg: #f8fafc;
+
+  --success: #22c55e;
+  --success-fg: #052e16;
+  --danger: #ef4444;
+  --danger-fg: #450a0a;
+  --warning: #f59e0b;
+  --warning-fg: #451a03;
+
+  --ring: #60a5fa;
+}
+
+:root[data-theme="light"] {
+  --bg: #f5f7fb;
+  --surface: #ffffff;
+  --card: #ffffff;
+  --card-hover: #f1f5f9;
+  --fg: #0f172a;
+  --muted: #eef2f8;
+  --muted-fg: #475569;
+  --border: rgba(15, 23, 42, 0.08);
+  --border-strong: rgba(15, 23, 42, 0.14);
+
+  --primary: #1e40af;
+  --primary-hover: #1e3a8a;
+  --primary-fg: #ffffff;
+
+  --success: #16a34a;
+  --success-fg: #ffffff;
+  --danger: #dc2626;
+  --danger-fg: #ffffff;
+  --warning: #d97706;
+  --warning-fg: #ffffff;
+
+  --ring: #2563eb;
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-surface: var(--surface);
+  --color-card: var(--card);
+  --color-card-hover: var(--card-hover);
+  --color-foreground: var(--fg);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-fg);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-fg);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-fg);
+  --color-danger: var(--danger);
+  --color-danger-foreground: var(--danger-fg);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-fg);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-ibm-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  color-scheme: dark;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::selection {
+  background: var(--primary);
+  color: var(--primary-fg);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
