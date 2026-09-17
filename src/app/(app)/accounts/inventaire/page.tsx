@@ -26,6 +26,7 @@ export default async function AccountsInventoryPage() {
         <TableHeader>
           <TableRow>
             <TableHead>Compte</TableHead>
+            <TableHead>Numéro</TableHead>
             <TableHead>Type</TableHead>
             <TableHead>Devise</TableHead>
             <TableHead>Statut</TableHead>
@@ -36,6 +37,7 @@ export default async function AccountsInventoryPage() {
           {accounts.map((account) => (
             <TableRow key={account.id}>
               <TableCell className="font-medium">{account.name}</TableCell>
+              <TableCell className="text-muted-foreground">{account.accountNumber || "—"}</TableCell>
               <TableCell className="text-muted-foreground">{ACCOUNT_TYPE_LABELS[account.type]}</TableCell>
               <TableCell className="text-muted-foreground">{account.currency}</TableCell>
               <TableCell>

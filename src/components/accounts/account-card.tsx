@@ -58,6 +58,9 @@ export function AccountCard({ account }: { account: Account }) {
               {!account.active ? <Badge variant="neutral">Archivé</Badge> : null}
               {!account.allowNegativeBalance ? <Badge variant="primary">Solde protégé</Badge> : null}
             </div>
+            {account.accountNumber ? (
+              <p className="truncate text-xs text-muted-foreground">{account.accountNumber}</p>
+            ) : null}
             <p
               className={cn(
                 "mt-1 font-mono text-lg font-semibold tabular-nums",

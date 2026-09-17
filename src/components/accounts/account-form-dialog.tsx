@@ -28,6 +28,7 @@ const schema = z.object({
   name: z.string().trim().min(1, "Le nom du compte est requis."),
   type: z.enum(["CASH", "BANK", "MOBILE_MONEY"]),
   allowNegativeBalance: z.boolean(),
+  accountNumber: z.string().trim().max(50, "Le numéro est trop long").optional(),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -35,13 +36,23 @@ type FormValues = z.infer<typeof schema>;
 const NAME_PLACEHOLDERS: Record<AccountType, string> = {
   CASH: "Ex. Espèces, Petite caisse",
   BANK: "Ex. BNI Courant, BOA Épargne",
-  MOBILE_MONEY: "Ex. MVola 034…, Airtel Money 033…",
+  MOBILE_MONEY: "Ex. MVola, Airtel Money",
 };
 
 const NAME_HINTS: Record<AccountType, string> = {
   CASH: "Créez plusieurs comptes cash si vous gérez plusieurs caisses.",
   BANK: "Vous pouvez ajouter un compte par banque, ou plusieurs comptes dans la même banque.",
   MOBILE_MONEY: "Vous pouvez ajouter un compte par numéro (MVola, Airtel Money…).",
+};
+
+const NUMBER_LABELS: Partial<Record<AccountType, string>> = {
+  BANK: "Numéro de compte",
+  MOBILE_MONEY: "Numéro de téléphone",
+};
+
+const NUMBER_PLACEHOLDERS: Partial<Record<AccountType, string>> = {
+  BANK: "Ex. 0012345678",
+  MOBILE_MONEY: "Ex. 034 00 000 00",
 };
 
 export function AccountFormDialog({
@@ -76,6 +87,7 @@ export function AccountFormDialog({
       name: account?.name ?? "",
       type: account?.type ?? defaultType,
       allowNegativeBalance: account?.allowNegativeBalance ?? true,
+      accountNumber: account?.accountNumber ?? "",
     },
   });
 
@@ -85,14 +97,16 @@ export function AccountFormDialog({
         name: account?.name ?? "",
         type: account?.type ?? defaultType,
         allowNegativeBalance: account?.allowNegativeBalance ?? true,
+        accountNumber: account?.accountNumber ?? "",
       });
     }
   }, [open, account, defaultType, reset]);
 
   async function onSubmit(values: FormValues) {
+    const payload = { ...values, accountNumber: values.accountNumber || undefined };
     const result = isEdit && account
-      ? await updateAccountAction(account.id, values)
-      : await createAccountAction(values);
+      ? await updateAccountAction(account.id, payload)
+      : await createAccountAction(payload);
 
     if (!result.success) {
       toast.error(result.message);
@@ -138,6 +152,21 @@ export function AccountFormDialog({
               </SelectContent>
             </Select>
           </div>
+
+          {watch("type") !== "CASH" ? (
+            <div className="space-y-1.5">
+              <Label htmlFor="account-number">{NUMBER_LABELS[watch("type")]} (optionnel)</Label>
+              <Input
+                id="account-number"
+                placeholder={NUMBER_PLACEHOLDERS[watch("type")]}
+                {...register("accountNumber")}
+              />
+              <p className="text-xs text-muted-foreground">
+                Utile pour différencier plusieurs comptes {ACCOUNT_TYPE_LABELS[watch("type")].toLowerCase()}.
+              </p>
+              <FieldError message={errors.accountNumber?.message} />
+            </div>
+          ) : null}
 
           <div className="flex items-center justify-between rounded-lg border border-border-strong bg-surface px-3 py-3">
             <div>

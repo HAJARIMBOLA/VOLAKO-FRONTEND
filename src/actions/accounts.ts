@@ -11,6 +11,7 @@ const AccountSchema = z.object({
   name: z.string().trim().min(1, "Le nom du compte est requis."),
   type: z.enum(["CASH", "BANK", "MOBILE_MONEY"]),
   allowNegativeBalance: z.boolean(),
+  accountNumber: z.string().trim().max(50).optional(),
 });
 
 function revalidateAccountViews() {

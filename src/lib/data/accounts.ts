@@ -7,6 +7,7 @@ export interface AccountInput {
   name: string;
   type: AccountType;
   allowNegativeBalance: boolean;
+  accountNumber?: string;
 }
 
 export function getAccounts(): Promise<Account[]> {

@@ -25,6 +25,7 @@ export interface Account {
   allowNegativeBalance: boolean;
   active: boolean;
   balance: number;
+  accountNumber: string | null;
 }
 
 export interface Category {
