@@ -9,7 +9,7 @@ import {
 } from "@/lib/session";
 import type { AuthResponse } from "@/lib/types";
 
-const PROTECTED_PREFIXES = ["/dashboard", "/accounts", "/categories", "/transactions"];
+const PROTECTED_PREFIXES = ["/dashboard", "/accounts", "/categories", "/planification"];
 const AUTH_PAGES = ["/login", "/register"];
 
 async function tryRefresh(refreshToken: string): Promise<AuthResponse | null> {

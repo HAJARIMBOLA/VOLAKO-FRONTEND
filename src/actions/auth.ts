@@ -24,12 +24,14 @@ export type AuthFormState =
 const PHONE_REGEX = /^\+?[0-9]{7,15}$/;
 
 const RegisterSchema = z.object({
-  fullName: z.string().trim().min(2, "Le nom complet doit contenir au moins 2 caractères."),
+  firstName: z.string().trim().min(1, "Le prénom est requis."),
+  lastName: z.string().trim().min(1, "Le nom est requis."),
   phoneNumber: z
     .string()
     .trim()
     .min(1, "Le numéro de téléphone est requis.")
     .regex(PHONE_REGEX, "Numéro de téléphone invalide."),
+  email: z.string().trim().min(1, "L'email est requis.").email("Adresse email invalide."),
   password: z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères."),
 });
 
@@ -46,8 +48,10 @@ async function setSessionCookies(auth: AuthResponse) {
 
 export async function registerAction(_prevState: AuthFormState, formData: FormData): Promise<AuthFormState> {
   const parsed = RegisterSchema.safeParse({
-    fullName: formData.get("fullName"),
+    firstName: formData.get("firstName"),
+    lastName: formData.get("lastName"),
     phoneNumber: formData.get("phoneNumber"),
+    email: formData.get("email"),
     password: formData.get("password"),
   });
 

@@ -1,10 +1,14 @@
 export type TransactionType = "INCOME" | "EXPENSE";
 export type AccountType = "CASH" | "BANK" | "MOBILE_MONEY";
+export type DebtDirection = "RECEIVABLE" | "PAYABLE";
+export type DebtStatus = "OPEN" | "PARTIALLY_PAID" | "PAID";
 
 export interface User {
   id: number;
+  firstName: string;
+  lastName: string;
   phoneNumber: string;
-  fullName: string;
+  email: string;
 }
 
 export interface AuthResponse {
@@ -57,6 +61,38 @@ export interface TransactionFilters {
   type?: TransactionType;
   from?: string;
   to?: string;
+}
+
+export interface Debt {
+  id: number;
+  direction: DebtDirection;
+  personName: string;
+  amount: number;
+  paidAmount: number;
+  remainingAmount: number;
+  description: string | null;
+  dueDate: string | null;
+  status: DebtStatus;
+  overdue: boolean;
+}
+
+export interface DebtPayment {
+  id: number;
+  amount: number;
+  paymentDate: string;
+  accountId: number;
+  accountName: string;
+}
+
+export interface Goal {
+  id: number;
+  name: string;
+  targetAmount: number;
+  savedAmount: number;
+  remainingAmount: number;
+  progressPercent: number;
+  targetDate: string | null;
+  completed: boolean;
 }
 
 export interface ApiErrorBody {

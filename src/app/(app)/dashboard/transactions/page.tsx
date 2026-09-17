@@ -22,7 +22,7 @@ interface TransactionsSearchParams {
   to?: string;
 }
 
-export default async function TransactionsPage({
+export default async function DashboardTransactionsPage({
   searchParams,
 }: {
   searchParams: Promise<TransactionsSearchParams>;
@@ -47,10 +47,7 @@ export default async function TransactionsPage({
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-xl font-semibold text-foreground">Transactions</h1>
-          <p className="text-sm text-muted-foreground">Vos revenus et dépenses, filtrables par compte, catégorie et période.</p>
-        </div>
+        <p className="text-sm text-muted-foreground">Vos revenus et dépenses, filtrables par compte, catégorie et période.</p>
         <TransactionFormDialog
           accounts={accounts}
           categories={categories}

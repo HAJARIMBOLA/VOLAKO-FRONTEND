@@ -13,7 +13,7 @@ const CategorySchema = z.object({
 
 function revalidateCategoryViews() {
   revalidatePath("/categories");
-  revalidatePath("/transactions");
+  revalidatePath("/dashboard", "layout");
 }
 
 export async function createCategoryAction(input: unknown): Promise<ActionResult> {

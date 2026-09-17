@@ -21,13 +21,8 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FieldError } from "@/components/ui/field-error";
+import { ACCOUNT_TYPE_LABELS } from "@/lib/labels";
 import type { Account, AccountType } from "@/lib/types";
-
-const ACCOUNT_TYPE_LABELS: Record<AccountType, string> = {
-  CASH: "Espèces",
-  BANK: "Banque",
-  MOBILE_MONEY: "Mobile Money",
-};
 
 const schema = z.object({
   name: z.string().trim().min(1, "Le nom du compte est requis."),

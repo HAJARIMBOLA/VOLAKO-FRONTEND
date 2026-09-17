@@ -14,9 +14,8 @@ const AccountSchema = z.object({
 });
 
 function revalidateAccountViews() {
-  revalidatePath("/accounts");
-  revalidatePath("/dashboard");
-  revalidatePath("/transactions");
+  revalidatePath("/accounts", "layout");
+  revalidatePath("/dashboard", "layout");
 }
 
 export async function createAccountAction(input: unknown): Promise<ActionResult> {

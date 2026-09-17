@@ -16,9 +16,8 @@ const TransactionSchema = z.object({
 });
 
 function revalidateTransactionViews() {
-  revalidatePath("/transactions");
-  revalidatePath("/dashboard");
-  revalidatePath("/accounts");
+  revalidatePath("/dashboard", "layout");
+  revalidatePath("/accounts", "layout");
 }
 
 export async function createTransactionAction(input: unknown): Promise<ActionResult> {

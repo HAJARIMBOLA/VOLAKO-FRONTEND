@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Tags, Plus } from "lucide-react";
+import Link from "next/link";
+import { Tags, Plus, ArrowLeft } from "lucide-react";
 import { getCategories } from "@/lib/data/categories";
 import { Button } from "@/components/ui/button";
 import { DialogTrigger } from "@/components/ui/dialog";
@@ -17,6 +18,10 @@ export default async function CategoriesPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
+          <Link href="/accounts" className="mb-1 flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground">
+            <ArrowLeft className="size-3.5" />
+            Retour à Compte
+          </Link>
           <h1 className="text-xl font-semibold text-foreground">Catégories</h1>
           <p className="text-sm text-muted-foreground">Classez vos revenus et dépenses.</p>
         </div>

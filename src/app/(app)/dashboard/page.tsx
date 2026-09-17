@@ -4,21 +4,24 @@ import { Wallet, TrendingUp, TrendingDown, ArrowRight, Plus } from "lucide-react
 import { getDashboard } from "@/lib/data/dashboard";
 import { getAccounts } from "@/lib/data/accounts";
 import { getTransactions } from "@/lib/data/transactions";
+import { getOverdueDebts } from "@/lib/data/debts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { CategoryBarList } from "@/components/dashboard/category-bar-list";
 import { RecentTransactionsList } from "@/components/dashboard/recent-transactions-list";
+import { OverdueDebtsAlert } from "@/components/dashboard/overdue-debts-alert";
 import { EmptyState } from "@/components/ui/empty-state";
 import { formatAmount, formatDate } from "@/lib/utils";
 
-export const metadata: Metadata = { title: "Tableau de bord — VOLAKO" };
+export const metadata: Metadata = { title: "Bilan — VOLAKO" };
 
 export default async function DashboardPage() {
-  const [dashboard, accounts, transactions] = await Promise.all([
+  const [dashboard, accounts, transactions, overdueDebts] = await Promise.all([
     getDashboard(),
     getAccounts(),
     getTransactions(),
+    getOverdueDebts(),
   ]);
 
   const periodTransactions = transactions.filter(
@@ -46,15 +49,14 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-6">
+      <OverdueDebtsAlert debts={overdueDebts} />
+
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-xl font-semibold text-foreground">Tableau de bord</h1>
-          <p className="text-sm text-muted-foreground">
-            Période du {formatDate(dashboard.periodFrom)} au {formatDate(dashboard.periodTo)}
-          </p>
-        </div>
+        <p className="text-sm text-muted-foreground">
+          Période du {formatDate(dashboard.periodFrom)} au {formatDate(dashboard.periodTo)}
+        </p>
         <Button asChild size="sm">
-          <Link href="/transactions">
+          <Link href="/dashboard/transactions">
             <Plus className="size-4" />
             Nouvelle transaction
           </Link>
@@ -71,7 +73,7 @@ export default async function DashboardPage() {
         <Card className="lg:col-span-3">
           <CardHeader className="flex-row items-center justify-between space-y-0">
             <CardTitle className="text-base font-semibold text-foreground">Transactions récentes</CardTitle>
-            <Link href="/transactions" className="flex items-center gap-1 text-xs font-medium text-primary hover:underline">
+            <Link href="/dashboard/transactions" className="flex items-center gap-1 text-xs font-medium text-primary hover:underline">
               Tout voir <ArrowRight className="size-3" />
             </Link>
           </CardHeader>
@@ -85,7 +87,7 @@ export default async function DashboardPage() {
                 description="Ajoutez votre première transaction pour voir vos mouvements ici."
                 action={
                   <Button asChild size="sm" variant="secondary">
-                    <Link href="/transactions">Ajouter une transaction</Link>
+                    <Link href="/dashboard/transactions">Ajouter une transaction</Link>
                   </Button>
                 }
               />

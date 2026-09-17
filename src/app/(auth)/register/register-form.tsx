@@ -15,10 +15,17 @@ export function RegisterForm() {
 
   return (
     <form action={formAction} className="space-y-4" noValidate>
-      <div className="space-y-1.5">
-        <Label htmlFor="fullName">Nom complet</Label>
-        <Input id="fullName" name="fullName" placeholder="Nija Rakoto" autoComplete="name" required />
-        <FieldError message={state?.errors?.fullName?.[0]} />
+      <div className="grid grid-cols-2 gap-3">
+        <div className="space-y-1.5">
+          <Label htmlFor="firstName">Prénom</Label>
+          <Input id="firstName" name="firstName" placeholder="Nija" autoComplete="given-name" required />
+          <FieldError message={state?.errors?.firstName?.[0]} />
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="lastName">Nom</Label>
+          <Input id="lastName" name="lastName" placeholder="Rakoto" autoComplete="family-name" required />
+          <FieldError message={state?.errors?.lastName?.[0]} />
+        </div>
       </div>
 
       <div className="space-y-1.5">
@@ -32,6 +39,12 @@ export function RegisterForm() {
           required
         />
         <FieldError message={state?.errors?.phoneNumber?.[0]} />
+      </div>
+
+      <div className="space-y-1.5">
+        <Label htmlFor="email">Email</Label>
+        <Input id="email" name="email" type="email" placeholder="vous@exemple.mg" autoComplete="email" required />
+        <FieldError message={state?.errors?.email?.[0]} />
       </div>
 
       <div className="space-y-1.5">
