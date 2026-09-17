@@ -34,11 +34,13 @@ type FormValues = z.infer<typeof schema>;
 
 export function AccountFormDialog({
   account,
+  defaultType = "CASH",
   trigger,
   open: controlledOpen,
   onOpenChange: setControlledOpen,
 }: {
   account?: Account;
+  defaultType?: AccountType;
   trigger?: React.ReactNode;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -60,7 +62,7 @@ export function AccountFormDialog({
     resolver: zodResolver(schema),
     defaultValues: {
       name: account?.name ?? "",
-      type: account?.type ?? "CASH",
+      type: account?.type ?? defaultType,
       allowNegativeBalance: account?.allowNegativeBalance ?? true,
     },
   });
@@ -69,11 +71,11 @@ export function AccountFormDialog({
     if (open) {
       reset({
         name: account?.name ?? "",
-        type: account?.type ?? "CASH",
+        type: account?.type ?? defaultType,
         allowNegativeBalance: account?.allowNegativeBalance ?? true,
       });
     }
-  }, [open, account, reset]);
+  }, [open, account, defaultType, reset]);
 
   async function onSubmit(values: FormValues) {
     const result = isEdit && account
