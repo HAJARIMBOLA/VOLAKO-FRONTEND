@@ -9,6 +9,8 @@ export default function AccountsMobileMoneyPage() {
     <AccountTypeSection
       type="MOBILE_MONEY"
       icon={Smartphone}
+      title="Mobile Money"
+      description="Vos comptes mobile money — plusieurs numéros possibles (ex. 2 MVola)."
       emptyDescription="Créez votre premier compte mobile money (MVola, Airtel Money…)."
     />
   );

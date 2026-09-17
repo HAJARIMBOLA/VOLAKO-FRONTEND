@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Wallet, TrendingUp, TrendingDown, ArrowRight, Plus } from "lucide-react";
+import { Wallet, TrendingUp, TrendingDown, ArrowRight, Plus, HandCoins, HandHeart } from "lucide-react";
 import { getDashboard } from "@/lib/data/dashboard";
 import { getAccounts } from "@/lib/data/accounts";
 import { getTransactions } from "@/lib/data/transactions";
-import { getOverdueDebts } from "@/lib/data/debts";
+import { getDebts, getOverdueDebts } from "@/lib/data/debts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { StatCard } from "@/components/dashboard/stat-card";
@@ -17,12 +17,18 @@ import { formatAmount, formatDate } from "@/lib/utils";
 export const metadata: Metadata = { title: "Bilan — VOLAKO" };
 
 export default async function DashboardPage() {
-  const [dashboard, accounts, transactions, overdueDebts] = await Promise.all([
+  const [dashboard, accounts, transactions, overdueDebts, debts] = await Promise.all([
     getDashboard(),
     getAccounts(),
     getTransactions(),
     getOverdueDebts(),
+    getDebts(),
   ]);
+
+  const receivables = debts.filter((d) => d.direction === "RECEIVABLE" && d.status !== "PAID");
+  const payables = debts.filter((d) => d.direction === "PAYABLE" && d.status !== "PAID");
+  const totalReceivable = receivables.reduce((sum, d) => sum + d.remainingAmount, 0);
+  const totalPayable = payables.reduce((sum, d) => sum + d.remainingAmount, 0);
 
   const periodTransactions = transactions.filter(
     (t) => t.transactionDate >= dashboard.periodFrom && t.transactionDate <= dashboard.periodTo
@@ -49,6 +55,11 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-6">
+      <div>
+        <h1 className="text-xl font-semibold text-foreground">Bilan</h1>
+        <p className="text-sm text-muted-foreground">Vue d&apos;ensemble de vos finances.</p>
+      </div>
+
       <OverdueDebtsAlert debts={overdueDebts} />
 
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -106,6 +117,58 @@ export default async function DashboardPage() {
               <p className="py-6 text-center text-sm text-muted-foreground">
                 Pas encore de dépense sur cette période.
               </p>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <Card>
+          <CardHeader className="flex-row items-center justify-between space-y-0">
+            <CardTitle className="text-base font-semibold text-foreground">Créances</CardTitle>
+            <Link href="/planification/creances" className="flex items-center gap-1 text-xs font-medium text-primary hover:underline">
+              Tout voir <ArrowRight className="size-3" />
+            </Link>
+          </CardHeader>
+          <CardContent>
+            {receivables.length > 0 ? (
+              <div className="space-y-3">
+                <p className="text-2xl font-semibold text-success">{formatAmount(totalReceivable)}</p>
+                <p className="text-xs text-muted-foreground">
+                  {receivables.length} personne{receivables.length > 1 ? "s" : ""} vous doi{receivables.length > 1 ? "vent" : "t"} de l&apos;argent
+                </p>
+              </div>
+            ) : (
+              <EmptyState
+                icon={HandHeart}
+                title="Aucune créance"
+                description="Personne ne vous doit d'argent pour l'instant."
+              />
+            )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex-row items-center justify-between space-y-0">
+            <CardTitle className="text-base font-semibold text-foreground">Dettes</CardTitle>
+            <Link href="/planification/dettes" className="flex items-center gap-1 text-xs font-medium text-primary hover:underline">
+              Tout voir <ArrowRight className="size-3" />
+            </Link>
+          </CardHeader>
+          <CardContent>
+            {payables.length > 0 ? (
+              <div className="space-y-3">
+                <p className="text-2xl font-semibold text-danger">{formatAmount(totalPayable)}</p>
+                <p className="text-xs text-muted-foreground">
+                  Vous devez de l&apos;argent à {payables.length} personne{payables.length > 1 ? "s" : ""}
+                </p>
+              </div>
+            ) : (
+              <EmptyState
+                icon={HandCoins}
+                title="Aucune dette"
+                description="Vous ne devez d'argent à personne pour l'instant."
+              />
             )}
           </CardContent>
         </Card>

@@ -47,7 +47,10 @@ export default async function DashboardTransactionsPage({
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-sm text-muted-foreground">Vos revenus et dépenses, filtrables par compte, catégorie et période.</p>
+        <div>
+          <h1 className="text-xl font-semibold text-foreground">Transactions</h1>
+          <p className="text-sm text-muted-foreground">Vos revenus et dépenses, filtrables par compte, catégorie et période.</p>
+        </div>
         <TransactionFormDialog
           accounts={accounts}
           categories={categories}

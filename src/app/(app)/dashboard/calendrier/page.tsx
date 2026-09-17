@@ -61,7 +61,12 @@ export default async function CalendarPage({
   const todayIso = new Date().toISOString().slice(0, 10);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-xl font-semibold text-foreground">Calendrier</h1>
+        <p className="text-sm text-muted-foreground">Vos mouvements du mois, jour par jour.</p>
+      </div>
+
       <div className="flex items-center justify-between">
         <h2 className="text-base font-semibold capitalize text-foreground">{MONTH_FORMATTER.format(firstDay)}</h2>
         <div className="flex gap-1">

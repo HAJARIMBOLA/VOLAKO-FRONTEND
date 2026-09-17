@@ -13,12 +13,25 @@ export default async function AccountsInventoryPage() {
   const accounts = await getAccounts();
   const total = accounts.filter((a) => a.active).reduce((sum, a) => sum + a.balance, 0);
 
+  const header = (
+    <div>
+      <h1 className="text-xl font-semibold text-foreground">Inventaire</h1>
+      <p className="text-sm text-muted-foreground">Tous vos comptes, tous types confondus.</p>
+    </div>
+  );
+
   if (accounts.length === 0) {
-    return <EmptyState icon={Boxes} title="Aucun compte" description="L'inventaire de vos comptes apparaîtra ici." />;
+    return (
+      <div className="space-y-6">
+        {header}
+        <EmptyState icon={Boxes} title="Aucun compte" description="L'inventaire de vos comptes apparaîtra ici." />
+      </div>
+    );
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
+      {header}
       <p className="text-sm text-muted-foreground">
         Total (comptes actifs) : <span className="font-mono font-semibold text-foreground">{formatAmount(total)}</span>
       </p>

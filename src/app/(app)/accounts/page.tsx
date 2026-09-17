@@ -9,6 +9,8 @@ export default function AccountsCashPage() {
     <AccountTypeSection
       type="CASH"
       icon={Banknote}
+      title="Cash"
+      description="Votre argent liquide."
       emptyDescription="Créez votre premier compte cash pour suivre votre liquide."
     />
   );

@@ -12,10 +12,14 @@ import type { AccountType } from "@/lib/types";
 export async function AccountTypeSection({
   type,
   icon: Icon,
+  title,
+  description,
   emptyDescription,
 }: {
   type: AccountType;
   icon: LucideIcon;
+  title: string;
+  description: string;
   emptyDescription: string;
 }) {
   const accounts = await getAccounts();
@@ -24,7 +28,11 @@ export async function AccountTypeSection({
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-end">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 className="text-xl font-semibold text-foreground">{title}</h1>
+          <p className="text-sm text-muted-foreground">{description}</p>
+        </div>
         <AccountFormDialog
           defaultType={type}
           trigger={

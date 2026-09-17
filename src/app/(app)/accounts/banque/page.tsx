@@ -9,6 +9,8 @@ export default function AccountsBankPage() {
     <AccountTypeSection
       type="BANK"
       icon={Building2}
+      title="Banque"
+      description="Vos comptes bancaires — plusieurs comptes possibles, différenciés par numéro."
       emptyDescription="Créez votre premier compte bancaire pour suivre vos comptes en banque."
     />
   );

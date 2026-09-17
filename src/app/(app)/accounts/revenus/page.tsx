@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { TrendingUp } from "lucide-react";
+import Link from "next/link";
+import { Tags, TrendingUp } from "lucide-react";
 import { getTransactions } from "@/lib/data/transactions";
 import { getAccounts } from "@/lib/data/accounts";
 import { getCategories } from "@/lib/data/categories";
+import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Table, TableHeader, TableBody, TableRow, TableHead } from "@/components/ui/table";
 import { TransactionRow } from "@/components/transactions/transaction-row";
@@ -19,14 +21,33 @@ export default async function AccountsRevenuePage() {
 
   const total = transactions.reduce((sum, t) => sum + t.amount, 0);
 
+  const header = (
+    <div className="flex flex-wrap items-start justify-between gap-3">
+      <div>
+        <h1 className="text-xl font-semibold text-foreground">Revenus</h1>
+        <p className="text-sm text-muted-foreground">Toutes vos rentrées d&apos;argent.</p>
+      </div>
+      <Button asChild size="sm" variant="ghost">
+        <Link href="/categories">
+          <Tags className="size-4" />
+          Gérer les catégories
+        </Link>
+      </Button>
+    </div>
+  );
+
   if (transactions.length === 0) {
     return (
-      <EmptyState icon={TrendingUp} title="Aucun revenu enregistré" description="Vos rentrées d'argent apparaîtront ici." />
+      <div className="space-y-6">
+        {header}
+        <EmptyState icon={TrendingUp} title="Aucun revenu enregistré" description="Vos rentrées d'argent apparaîtront ici." />
+      </div>
     );
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
+      {header}
       <p className="text-sm text-muted-foreground">
         Total : <span className="font-mono font-semibold text-success">{formatAmount(total)}</span>
       </p>

@@ -10,13 +10,23 @@ export const metadata: Metadata = { title: "Chronologie — VOLAKO" };
 export default async function TimelinePage() {
   const transactions = await getTransactions();
 
+  const header = (
+    <div>
+      <h1 className="text-xl font-semibold text-foreground">Chronologie</h1>
+      <p className="text-sm text-muted-foreground">Vos transactions classées par date.</p>
+    </div>
+  );
+
   if (transactions.length === 0) {
     return (
-      <EmptyState
-        icon={History}
-        title="Aucun événement pour l'instant"
-        description="Vos transactions apparaîtront ici, classées par date."
-      />
+      <div className="space-y-6">
+        {header}
+        <EmptyState
+          icon={History}
+          title="Aucun événement pour l'instant"
+          description="Vos transactions apparaîtront ici, classées par date."
+        />
+      </div>
     );
   }
 
@@ -29,7 +39,9 @@ export default async function TimelinePage() {
   const orderedDates = Array.from(groups.keys()).sort((a, b) => (a < b ? 1 : -1));
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
+      {header}
+      <div className="space-y-8">
       {orderedDates.map((date) => (
         <div key={date} className="relative pl-6">
           <div className="absolute left-0 top-1 flex h-full flex-col items-center">
@@ -70,6 +82,7 @@ export default async function TimelinePage() {
           </ul>
         </div>
       ))}
+      </div>
     </div>
   );
 }

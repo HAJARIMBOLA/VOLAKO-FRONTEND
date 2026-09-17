@@ -40,7 +40,10 @@ export function SidebarNav() {
             </div>
             <div className="flex flex-col gap-1">
               {group.children?.map((item) => {
-                const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+                // Exact match only: several siblings can share a URL prefix
+                // (e.g. /dashboard and /dashboard/transactions), so prefix
+                // matching would highlight more than one link at once.
+                const isActive = pathname === item.href;
                 return (
                   <Link
                     key={item.href}
