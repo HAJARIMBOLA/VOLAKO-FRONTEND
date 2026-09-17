@@ -2,11 +2,11 @@ import "server-only";
 import { backendFetch } from "../backend";
 import type { AuthResponse } from "../types";
 
-export function registerUser(input: { email: string; password: string; fullName: string }): Promise<AuthResponse> {
+export function registerUser(input: { phoneNumber: string; password: string; fullName: string }): Promise<AuthResponse> {
   return backendFetch<AuthResponse>("/api/auth/register", { method: "POST", body: input });
 }
 
-export function loginUser(input: { email: string; password: string }): Promise<AuthResponse> {
+export function loginUser(input: { phoneNumber: string; password: string }): Promise<AuthResponse> {
   return backendFetch<AuthResponse>("/api/auth/login", { method: "POST", body: input });
 }
 

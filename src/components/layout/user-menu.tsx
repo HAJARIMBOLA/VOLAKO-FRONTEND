@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export function UserMenu({ email }: { email: string }) {
+export function UserMenu({ phoneNumber }: { phoneNumber: string }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -21,7 +21,7 @@ export function UserMenu({ email }: { email: string }) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel className="truncate">{email}</DropdownMenuLabel>
+        <DropdownMenuLabel className="truncate">{phoneNumber}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <form action={logoutAction}>
           <DropdownMenuItem asChild>

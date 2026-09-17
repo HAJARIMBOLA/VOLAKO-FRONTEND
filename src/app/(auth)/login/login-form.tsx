@@ -18,9 +18,16 @@ export function LoginForm({ next }: { next?: string }) {
       {next ? <input type="hidden" name="next" value={next} /> : null}
 
       <div className="space-y-1.5">
-        <Label htmlFor="email">Email</Label>
-        <Input id="email" name="email" type="email" placeholder="vous@exemple.mg" autoComplete="email" required />
-        <FieldError message={state?.errors?.email?.[0]} />
+        <Label htmlFor="phoneNumber">Numéro de téléphone</Label>
+        <Input
+          id="phoneNumber"
+          name="phoneNumber"
+          type="tel"
+          placeholder="034 00 000 00"
+          autoComplete="tel"
+          required
+        />
+        <FieldError message={state?.errors?.phoneNumber?.[0]} />
       </div>
 
       <div className="space-y-1.5">

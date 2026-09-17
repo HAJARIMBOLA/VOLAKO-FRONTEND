@@ -1,14 +1,14 @@
 import { redirect } from "next/navigation";
 import { Wallet } from "lucide-react";
-import { getCurrentUserEmail } from "@/lib/session-server";
+import { getCurrentUserPhoneNumber } from "@/lib/session-server";
 import { Sidebar } from "@/components/layout/sidebar";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { UserMenu } from "@/components/layout/user-menu";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
-  const email = await getCurrentUserEmail();
-  if (!email) {
+  const phoneNumber = await getCurrentUserPhoneNumber();
+  if (!phoneNumber) {
     redirect("/login");
   }
 
@@ -36,7 +36,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
             <div className="hidden md:block" />
             <div className="flex items-center gap-1">
               <ThemeToggle />
-              <UserMenu email={email} />
+              <UserMenu phoneNumber={phoneNumber} />
             </div>
           </header>
 

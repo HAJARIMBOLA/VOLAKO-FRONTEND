@@ -19,7 +19,7 @@ export async function requireAccessToken(): Promise<string> {
   return token;
 }
 
-export async function getCurrentUserEmail(): Promise<string | null> {
+export async function getCurrentUserPhoneNumber(): Promise<string | null> {
   const token = await getAccessToken();
   if (!token) return null;
   return decodeAccessToken(token)?.sub ?? null;

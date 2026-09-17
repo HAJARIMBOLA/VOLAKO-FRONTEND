@@ -3,7 +3,7 @@ export type AccountType = "CASH" | "BANK" | "MOBILE_MONEY";
 
 export interface User {
   id: number;
-  email: string;
+  phoneNumber: string;
   fullName: string;
 }
 
