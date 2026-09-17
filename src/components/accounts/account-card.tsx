@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Banknote, Building2, Smartphone, MoreVertical, Pencil, Archive } from "lucide-react";
@@ -48,7 +49,10 @@ export function AccountCard({ account }: { account: Account }) {
   return (
     <Card className={cn(!account.active && "opacity-60")}>
       <CardContent className="flex items-start justify-between gap-3 p-5">
-        <div className="flex min-w-0 items-start gap-3">
+        <Link
+          href={`/accounts/${account.id}`}
+          className="-m-1 flex min-w-0 items-start gap-3 rounded-lg p-1 transition-colors hover:bg-muted"
+        >
           <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-muted text-foreground">
             <Icon className="size-5" />
           </div>
@@ -70,7 +74,7 @@ export function AccountCard({ account }: { account: Account }) {
               {formatAmount(account.balance)}
             </p>
           </div>
-        </div>
+        </Link>
 
         {account.active ? (
           <DropdownMenu>

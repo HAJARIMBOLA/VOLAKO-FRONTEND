@@ -42,6 +42,7 @@ export function TransactionFormDialog({
   transaction,
   accounts,
   categories,
+  defaultAccountId,
   trigger,
   open: controlledOpen,
   onOpenChange: setControlledOpen,
@@ -49,6 +50,7 @@ export function TransactionFormDialog({
   transaction?: Transaction;
   accounts: Account[];
   categories: Category[];
+  defaultAccountId?: number;
   trigger?: React.ReactNode;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -71,7 +73,7 @@ export function TransactionFormDialog({
     defaultValues: {
       type: transaction?.type ?? "EXPENSE",
       amount: transaction?.amount ?? undefined,
-      accountId: transaction?.accountId,
+      accountId: transaction?.accountId ?? defaultAccountId,
       categoryId: transaction?.categoryId,
       description: transaction?.description ?? "",
       transactionDate: transaction?.transactionDate ?? todayIso(),
@@ -87,13 +89,13 @@ export function TransactionFormDialog({
       reset({
         type: transaction?.type ?? "EXPENSE",
         amount: transaction?.amount ?? undefined,
-        accountId: transaction?.accountId,
+        accountId: transaction?.accountId ?? defaultAccountId,
         categoryId: transaction?.categoryId,
         description: transaction?.description ?? "",
         transactionDate: transaction?.transactionDate ?? todayIso(),
       });
     }
-  }, [open, transaction, reset]);
+  }, [open, transaction, defaultAccountId, reset]);
 
   async function onSubmit(values: FormValues) {
     const payload = { ...values, description: values.description || undefined };
