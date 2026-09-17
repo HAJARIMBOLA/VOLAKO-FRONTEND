@@ -85,6 +85,27 @@ export interface DebtPayment {
   accountName: string;
 }
 
+export interface Loan {
+  id: number;
+  name: string;
+  principalAmount: number;
+  monthlyPayment: number;
+  durationMonths: number;
+  startDate: string;
+  paidInstallments: number;
+  paidAmount: number;
+  remainingAmount: number;
+  completed: boolean;
+}
+
+export interface LoanPayment {
+  id: number;
+  amount: number;
+  paymentDate: string;
+  accountId: number;
+  accountName: string;
+}
+
 export interface Goal {
   id: number;
   name: string;
