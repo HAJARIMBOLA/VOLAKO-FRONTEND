@@ -32,6 +32,18 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
+const NAME_PLACEHOLDERS: Record<AccountType, string> = {
+  CASH: "Ex. Espèces, Petite caisse",
+  BANK: "Ex. BNI Courant, BOA Épargne",
+  MOBILE_MONEY: "Ex. MVola 034…, Airtel Money 033…",
+};
+
+const NAME_HINTS: Record<AccountType, string> = {
+  CASH: "Créez plusieurs comptes cash si vous gérez plusieurs caisses.",
+  BANK: "Vous pouvez ajouter un compte par banque, ou plusieurs comptes dans la même banque.",
+  MOBILE_MONEY: "Vous pouvez ajouter un compte par numéro (MVola, Airtel Money…).",
+};
+
 export function AccountFormDialog({
   account,
   defaultType = "CASH",
@@ -106,7 +118,8 @@ export function AccountFormDialog({
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
           <div className="space-y-1.5">
             <Label htmlFor="account-name">Nom</Label>
-            <Input id="account-name" placeholder="Ex. MVola, BNI, Cash" {...register("name")} />
+            <Input id="account-name" placeholder={NAME_PLACEHOLDERS[watch("type")]} {...register("name")} />
+            <p className="text-xs text-muted-foreground">{NAME_HINTS[watch("type")]}</p>
             <FieldError message={errors.name?.message} />
           </div>
 
