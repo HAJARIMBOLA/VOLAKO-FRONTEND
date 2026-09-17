@@ -12,7 +12,7 @@ export function registerUser(input: {
   return backendFetch<AuthResponse>("/api/auth/register", { method: "POST", body: input });
 }
 
-export function loginUser(input: { phoneNumber: string; password: string }): Promise<AuthResponse> {
+export function loginUser(input: { identifier: string; password: string }): Promise<AuthResponse> {
   return backendFetch<AuthResponse>("/api/auth/login", { method: "POST", body: input });
 }
 

@@ -18,16 +18,16 @@ export function LoginForm({ next }: { next?: string }) {
       {next ? <input type="hidden" name="next" value={next} /> : null}
 
       <div className="space-y-1.5">
-        <Label htmlFor="phoneNumber">Numéro de téléphone</Label>
+        <Label htmlFor="identifier">Email ou numéro de téléphone</Label>
         <Input
-          id="phoneNumber"
-          name="phoneNumber"
-          type="tel"
-          placeholder="034 00 000 00"
-          autoComplete="tel"
+          id="identifier"
+          name="identifier"
+          type="text"
+          placeholder="vous@exemple.mg ou 034 00 000 00"
+          autoComplete="username"
           required
         />
-        <FieldError message={state?.errors?.phoneNumber?.[0]} />
+        <FieldError message={state?.errors?.identifier?.[0]} />
       </div>
 
       <div className="space-y-1.5">

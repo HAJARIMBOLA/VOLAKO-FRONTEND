@@ -36,7 +36,7 @@ const RegisterSchema = z.object({
 });
 
 const LoginSchema = z.object({
-  phoneNumber: z.string().trim().min(1, "Le numéro de téléphone est requis."),
+  identifier: z.string().trim().min(1, "L'email ou le numéro de téléphone est requis."),
   password: z.string().min(1, "Le mot de passe est requis."),
 });
 
@@ -74,7 +74,7 @@ export async function registerAction(_prevState: AuthFormState, formData: FormDa
 
 export async function loginAction(_prevState: AuthFormState, formData: FormData): Promise<AuthFormState> {
   const parsed = LoginSchema.safeParse({
-    phoneNumber: formData.get("phoneNumber"),
+    identifier: formData.get("identifier"),
     password: formData.get("password"),
   });
 
