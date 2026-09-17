@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { createCategory, updateCategory, deactivateCategory } from "@/lib/data/categories";
 import { ApiError } from "@/lib/api-error";
 import type { ActionResult } from "./accounts";
+import type { Category } from "@/lib/types";
 
 const CategorySchema = z.object({
   name: z.string().trim().min(1, "Le nom de la catégorie est requis."),
@@ -30,6 +31,26 @@ export async function createCategoryAction(input: unknown): Promise<ActionResult
 
   revalidateCategoryViews();
   return { success: true };
+}
+
+/** Used by the transaction form's category combobox: creates the category
+ *  and hands back the created record so it can be selected immediately,
+ *  without leaving the transaction dialog. */
+export async function createCategoryInlineAction(
+  input: unknown
+): Promise<{ success: true; category: Category } | { success: false; message: string }> {
+  const parsed = CategorySchema.safeParse(input);
+  if (!parsed.success) {
+    return { success: false, message: parsed.error.issues[0]?.message ?? "Champs invalides." };
+  }
+
+  try {
+    const category = await createCategory(parsed.data);
+    revalidateCategoryViews();
+    return { success: true, category };
+  } catch (error) {
+    return { success: false, message: error instanceof ApiError ? error.message : "Création impossible." };
+  }
 }
 
 export async function updateCategoryAction(id: number, input: unknown): Promise<ActionResult> {

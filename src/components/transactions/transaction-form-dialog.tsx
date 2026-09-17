@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FieldError } from "@/components/ui/field-error";
+import { CategoryCombobox } from "./category-combobox";
 import { cn } from "@/lib/utils";
 import type { Account, Category, Transaction, TransactionType } from "@/lib/types";
 
@@ -80,9 +81,17 @@ export function TransactionFormDialog({
     },
   });
 
+  const [localCategories, setLocalCategories] = React.useState<Category[]>(categories);
+
+  React.useEffect(() => {
+    if (open) setLocalCategories(categories);
+  }, [open, categories]);
+
   const type = watch("type");
   const activeAccounts = accounts.filter((a) => a.active || a.id === transaction?.accountId);
-  const matchingCategories = categories.filter((c) => c.type === type && (c.active || c.id === transaction?.categoryId));
+  const matchingCategories = localCategories.filter(
+    (c) => c.type === type && (c.active || c.id === transaction?.categoryId)
+  );
 
   React.useEffect(() => {
     if (open) {
@@ -181,18 +190,14 @@ export function TransactionFormDialog({
 
             <div className="space-y-1.5">
               <Label htmlFor="tx-category">Catégorie</Label>
-              <Select value={String(watch("categoryId") ?? "")} onValueChange={(v) => setValue("categoryId", Number(v))}>
-                <SelectTrigger id="tx-category">
-                  <SelectValue placeholder="Choisir" />
-                </SelectTrigger>
-                <SelectContent>
-                  {matchingCategories.map((category) => (
-                    <SelectItem key={category.id} value={String(category.id)}>
-                      {category.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <CategoryCombobox
+                key={`${transaction?.id ?? "new"}-${type}`}
+                type={type}
+                categories={matchingCategories}
+                value={watch("categoryId")}
+                onChange={(categoryId) => setValue("categoryId", categoryId)}
+                onCategoryCreated={(category) => setLocalCategories((prev) => [...prev, category])}
+              />
               <FieldError message={errors.categoryId?.message} />
             </div>
           </div>
